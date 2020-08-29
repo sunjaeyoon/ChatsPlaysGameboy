@@ -16,6 +16,8 @@ http.createServer((request, response) => {
 });
 
 var messages = []
+var max_flush = 1000
+
 	
 var dir = {'a': 'a', 'b': 'b', 
 	'right':'right', 'left':'left',
@@ -74,8 +76,8 @@ function readStreamAsJSON(stream, callback) {
     	direct === 'start' ||
     	direct === 'select'){
     	
-    	console.log(direct+"\t"+parsedData['sender']);
-    	runScript(dir[direct]);
+      console.log(direct+"\t"+parsedData['sender']);
+    	//runScript(dir[direct]);
     }
     callback(error, parsedData)
   })
@@ -90,6 +92,9 @@ router.add('PUT', /^\/chat$/, (request, response) => {
       console.error(error)
       respond(response, 400, error.toString())
     } else {
+      if (messages.length >= max_flush){
+        messages = messages.splice(1, messages.length)
+      }
       messages.push(message)
       sendMessageForWaiters(message)
       respond(response, 204, null)

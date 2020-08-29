@@ -4,6 +4,8 @@ import sys
 
 keys = ['a', 'b', 'x', 'y', 'e', 's', 'right', 'left', 'up', 'down']
 
+
+
 def press(key):
 	if key in keys:
 		#time.sleep(3)
