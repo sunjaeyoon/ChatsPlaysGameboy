@@ -1,0 +1,17 @@
+{
+  "name": "chatroom",
+  "version": "0.0.2",
+  "description": "A simple web chatroom",
+  "author": "Li Enze",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "ecstatic": "~2.1.0"
+  },
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "~4.0"
+  }
+}
