@@ -13,3 +13,10 @@ git add -A
 git commit -m "message to push"
 git push origin master
 ```
+
+Pull repository
+```
+git stash 
+git pull origin master
+git stash apply
+```
