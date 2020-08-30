@@ -14,11 +14,12 @@ commands = { "a": "a", "b": "b", "right": "right", "left": "left", "up": "up", "
 
 def connect(website_url):
     chrome_options = Options()  
-    chrome_options.add_argument("--headless")
+    #chrome_options.add_argument("--headless")
     driver = webdriver.Chrome(executable_path="./chromedriver.exe", chrome_options=chrome_options)
     driver.get(website_url)
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "messages")))
-    reloadPage = time.time()  
+    reloadPage = time.time()
+    old_time = time.time()  
     while True:
         timeNow = time.time()
         if timeNow - reloadPage >= 60: ## to flush the page of new messages
@@ -40,15 +41,14 @@ def connect(website_url):
              return message_result; \
             "
         )
-        print(f"reading {len(messages)} messages")
+        # print(f"reading {len(messages)} messages.\nOld time: {old_time}\n")
+        # print(messages[-2])
         for i in range(len(messages)-1):
-            command = messages[i]["content"]
+            command = messages[i]["content"].lower()
             timestamp = float(messages[i]["clientTime"])/1000
-            if command in commands and (time.time() - timestamp) <= 1:
-                print(timestamp)
-                print(time.time())
+            if command in commands and timestamp > old_time:
                 print(f"pressing {command}")
                 keys.press(commands[command])
-        time.sleep(1)
+                old_time = timestamp
 
 connect("http://localhost:8080")
